@@ -9,21 +9,22 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="train", group="Linear OpMode")
-public class train extends LinearOpMode {
-    private Servo trainSlide = null;
+@TeleOp(name="samplebucket", group="Linear OpMode")
+public class samplebucket extends LinearOpMode {
+    private Servo bucket = null;
+
     public void runOpMode() {
-        trainSlide = hardwareMap.get(Servo.class, Constants.TRAIN_SLIDE);
+        bucket = hardwareMap.get(Servo.class, Constants.SAMPLE_BUCKET);
         waitForStart();
-        trainSlide.setDirection(Servo.Direction.FORWARD);
+        bucket.setDirection(Servo.Direction.REVERSE);
         while (opModeIsActive()) {
-            if (gamepad2.b) {
-                trainSlide.setPosition(0);
+            if (gamepad2.y) {
+                bucket.setPosition(135);
             }
-            if (gamepad2.a) {
-                trainSlide.setPosition(135);
+            if (gamepad2.x) {
+                bucket.setPosition(90);
             }
-            telemetry.addData("train power", "%4.2f", trainSlide.getPosition());
+            telemetry.addData("train power", "%4.2f", bucket.getPosition());
         }
     }
 }
