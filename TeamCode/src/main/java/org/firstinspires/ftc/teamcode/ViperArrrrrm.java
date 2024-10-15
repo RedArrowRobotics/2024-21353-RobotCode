@@ -1,38 +1,44 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="ViperArrrrrm", group="Linear OpMode")
 public class ViperArrrrrm extends LinearOpMode {
     private DcMotor viperArm = null;
 
-    public ViperArrrrrm() {
-    }
     double adjustControllerSensitivity(double input){
         return input * Math.abs(input);
     }
 
+    Servo trainSlide;
+
+    void initialize(HardwareMap hwm){
+        viperArm = hwm.get(DcMotor.class, Constants.VIPER_ARM);
+        viperArm.setDirection(DcMotor.Direction.FORWARD);
+    }
+    void operateArm(){
+        double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
+        double max = 1;
+        max = Math.max(max, Math.abs(armPower));
+        if (armPower > max) {
+            armPower = max;
+        }
+        viperArm.setPower(armPower);
+        telemetry.addData("arm power", "%4.2f", armPower);
+        telemetry.update();
+    }
+
     @Override
     public void runOpMode() {
-        viperArm = hardwareMap.get(DcMotor.class, Constants.VIPER_ARM);
+        initialize(hardwareMap);
         waitForStart();
-        viperArm.setDirection(DcMotor.Direction.FORWARD);
         while (opModeIsActive()) {
-            double power = adjustControllerSensitivity(-gamepad2.left_stick_y);
-            double max = 1;
-            max = Math.max(max, Math.abs(power));
-            if (power > max) {
-                power = max;
-            }
-        viperArm.setPower(power);
-        telemetry.addData("arm power", "%4.2f", power);
+          operateArm();
         }
     }
 }

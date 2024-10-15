@@ -41,8 +41,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
-public class GradualDrive extends LinearOpMode {
+@TeleOp(name="Full Drive", group="Linear OpMode")
+public class FullTeleOP extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -51,6 +51,10 @@ public class GradualDrive extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     private IMU imu = null;
+    private SampleBucket bucket = null;
+    private Train trainSlide = null;
+    private ViperArrrrrm viperArm = null;
+    private Actively_Active_Intake intake = null;
 
     RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
     RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
@@ -71,9 +75,17 @@ public class GradualDrive extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, BL);
         rightFrontDrive = hardwareMap.get(DcMotor.class, FR);
         rightBackDrive = hardwareMap.get(DcMotor.class, BR);
+        bucket = new SampleBucket();
+        viperArm = new ViperArrrrrm();
+        trainSlide = new Train();
+        intake = new Actively_Active_Intake();
 
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
+        bucket.initialize(hardwareMap);
+        viperArm.initialize(hardwareMap);
+        trainSlide.initialize(hardwareMap);
+        intake.initialize(hardwareMap);
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -125,6 +137,37 @@ public class GradualDrive extends LinearOpMode {
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
+
+            //Bucket
+            if (gamepad2.y) {
+                bucket.dump();
+            }
+            if (gamepad2.x) {
+                bucket.reset();
+            }
+
+            //Train Slide
+            if (gamepad2.b) {
+                trainSlide.extend();
+            }
+            if (gamepad2.a) {
+                trainSlide.retract();
+            }
+
+            //Viper Arm
+            while (opModeIsActive()) {
+                viperArm.operateArm();
+            }
+
+            //Active Intake
+            if (gamepad2.left_bumper) {
+                intake.rotateOut();
+                intake.startSpin();
+            }
+            if (gamepad2.right_bumper) {
+                intake.rotateIn();
+                intake.stopSpin();
+            }
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
