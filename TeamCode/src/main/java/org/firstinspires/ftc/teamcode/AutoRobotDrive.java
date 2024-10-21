@@ -142,6 +142,18 @@ public class AutoRobotDrive extends LinearOpMode {
         while (opModeIsActive() && (runtime.seconds() < seconds)) { }
     }
 
+    void driveForward(int time,double power){
+        leftBackDrive.setPower(power);
+        leftFrontDrive.setPower(power);
+        rightBackDrive.setPower(power);
+        rightFrontDrive.setPower(power);
+        pause(time / 1000.0);
+        leftBackDrive.setPower(0);
+        leftFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+    }
+
     @Override
     public void runOpMode() {
 
@@ -241,3 +253,4 @@ public class AutoRobotDrive extends LinearOpMode {
         sleep(10000);
     }
 }
+//Easter egg! }[:~}
