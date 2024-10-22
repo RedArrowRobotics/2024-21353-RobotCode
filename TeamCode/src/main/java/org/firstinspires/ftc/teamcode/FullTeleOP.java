@@ -169,7 +169,8 @@ public class FullTeleOP extends LinearOpMode {
 
             //Viper Arm
             while (opModeIsActive()) {
-                viperArm.operateArm();
+                double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
+                viperArm.operateArm(armPower);
             }
 
             //Active Intake

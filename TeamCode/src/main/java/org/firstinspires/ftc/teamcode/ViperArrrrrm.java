@@ -21,8 +21,7 @@ public class ViperArrrrrm extends LinearOpMode {
         viperArm = hwm.get(DcMotor.class, Constants.VIPER_ARM);
         viperArm.setDirection(DcMotor.Direction.FORWARD);
     }
-    void operateArm(){
-        double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
+    void operateArm(double armPower){
         double max = 1;
         max = Math.max(max, Math.abs(armPower));
         if (armPower > max) {
@@ -38,7 +37,9 @@ public class ViperArrrrrm extends LinearOpMode {
         initialize(hardwareMap);
         waitForStart();
         while (opModeIsActive()) {
-          operateArm();
+            double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
+
+            operateArm(armPower);
         }
     }
 }
