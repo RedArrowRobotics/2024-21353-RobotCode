@@ -19,7 +19,6 @@ public class Actively_Active_Intake extends LinearOpMode {
         rotate.setDirection(Servo.Direction.FORWARD);
         CRServo spin = hwm.get(CRServo.class, Constants.BENSON_INTAKE_SPIN);
         spin.setDirection(DcMotorSimple.Direction.FORWARD);
-        waitForStart();
     }
     void rotateOut(){
         rotate.setPosition(135);

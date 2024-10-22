@@ -41,7 +41,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Full Drive", group="Linear OpMode")
+@TeleOp(name="Full Teleop", group="Linear OpMode")
 public class FullTeleOP extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -69,16 +69,26 @@ public class FullTeleOP extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        telemetry.addData("Status", "Starting Initialization");
+        telemetry.update();
+
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
         leftFrontDrive  = hardwareMap.get(DcMotor.class, FL);
         leftBackDrive  = hardwareMap.get(DcMotor.class, BL);
         rightFrontDrive = hardwareMap.get(DcMotor.class, FR);
         rightBackDrive = hardwareMap.get(DcMotor.class, BR);
+
+        telemetry.addData("Status", "Finished getting drive motors..");
+        telemetry.update();
+
         bucket = new SampleBucket();
         viperArm = new ViperArrrrrm();
         trainSlide = new Train();
         intake = new Actively_Active_Intake();
+
+        telemetry.addData("Status", "Finished Creating Robot Components..");
+        telemetry.update();
 
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
@@ -86,6 +96,9 @@ public class FullTeleOP extends LinearOpMode {
         viperArm.initialize(hardwareMap);
         trainSlide.initialize(hardwareMap);
         intake.initialize(hardwareMap);
+
+        telemetry.addData("Status", "Finished Initializing Robot Components....");
+        telemetry.update();
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
