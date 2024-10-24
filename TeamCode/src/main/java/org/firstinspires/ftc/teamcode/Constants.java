@@ -8,4 +8,5 @@ public class Constants {
     public static String BR = "BR";
     public static String VIPER_ARM = "Viper";
     public static String TRAIN_SLIDE = "Train";
+    public static String ODO = "odo";
 }

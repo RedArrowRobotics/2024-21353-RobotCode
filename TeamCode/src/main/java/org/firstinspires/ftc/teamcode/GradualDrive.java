@@ -34,11 +34,9 @@ import static org.firstinspires.ftc.teamcode.Constants.BR;
 import static org.firstinspires.ftc.teamcode.Constants.FL;
 import static org.firstinspires.ftc.teamcode.Constants.FR;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -78,12 +76,8 @@ public class GradualDrive extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
-    private IMU imu = null;
 
-    RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
-    RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
-
-    RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+    Odometry odo; // Declare OpMode member for the Odometry Computer
 
     double adjustControllerSensitivity(double input){
         double speed = input * Math.abs(input);
@@ -100,9 +94,7 @@ public class GradualDrive extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, FR);
         rightBackDrive = hardwareMap.get(DcMotor.class, BR);
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        imu.initialize(new IMU.Parameters(orientationOnRobot));
-
+        odo.initialize(hardwareMap);
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -121,6 +113,7 @@ public class GradualDrive extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
+        odo.logInitializationData(telemetry);
         telemetry.update();
 
         waitForStart();
