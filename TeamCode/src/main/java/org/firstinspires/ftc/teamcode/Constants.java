@@ -7,5 +7,7 @@ public class Constants {
     public static String BL = "BL";
     public static String BR = "BR";
     public static String VIPER_ARM = "Viper";
-    public static String TRAIN_SLIDE = "Train";
+    public static String TRAIN_SLIDE = "Conductor";
+    public static String BENSON_INTAKE_ROTATE = "Active Rotate";
+    public static String BENSON_INTAKE_SPIN = "Active Spin";
 }
