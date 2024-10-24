@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @TeleOp(name="ViperArrrrrm", group="Linear OpMode")
 public class ViperArrrrrm extends LinearOpMode {
     private DcMotor viperArm = null;
@@ -21,7 +23,7 @@ public class ViperArrrrrm extends LinearOpMode {
         viperArm = hwm.get(DcMotor.class, Constants.VIPER_ARM);
         viperArm.setDirection(DcMotor.Direction.FORWARD);
     }
-    void operateArm(double armPower){
+    void operateArm(Telemetry telemetry, double armPower){
         double max = 1;
         max = Math.max(max, Math.abs(armPower));
         if (armPower > max) {
@@ -29,7 +31,6 @@ public class ViperArrrrrm extends LinearOpMode {
         }
         viperArm.setPower(armPower);
         telemetry.addData("arm power", "%4.2f", armPower);
-        telemetry.update();
     }
 
     @Override
@@ -39,7 +40,7 @@ public class ViperArrrrrm extends LinearOpMode {
         while (opModeIsActive()) {
             double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
 
-            operateArm(armPower);
+            operateArm(telemetry, armPower);
         }
     }
 }

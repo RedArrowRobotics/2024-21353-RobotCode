@@ -168,19 +168,16 @@ public class FullTeleOP extends LinearOpMode {
             }
 
             //Viper Arm
-            while (opModeIsActive()) {
-                double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
-                viperArm.operateArm(armPower);
-            }
+            double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
+            viperArm.operateArm(telemetry, armPower);
 
             //Active Intake
             if (gamepad2.left_bumper) {
-                intake.rotateOut();
-                intake.startSpin();
+                intake.rotateOut(telemetry);
             }
             if (gamepad2.right_bumper) {
-                intake.rotateIn();
-                intake.stopSpin();
+                intake.rotateIn(telemetry);
+                intake.stopSpin(telemetry);
             }
 
             // Show the elapsed game time and wheel power.
