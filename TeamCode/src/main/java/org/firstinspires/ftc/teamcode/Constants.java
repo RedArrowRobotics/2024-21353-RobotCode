@@ -8,6 +8,6 @@ public class Constants {
     public static String BR = "BR";
     public static String VIPER_ARM = "Viper";
     public static String TRAIN_SLIDE = "Conductor";
-    public static String BENSON_INTAKE_ROTATE = "Active Rotate";
-    public static String BENSON_INTAKE_SPIN = "Active Spin";
+    public static String BENSON_INTAKE_ROTATE = "Benson Rotate";
+    public static String BENSON_INTAKE_SPIN = "Benson Spin";
 }

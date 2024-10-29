@@ -101,7 +101,7 @@ public class FullTeleOP extends LinearOpMode {
         telemetry.update();
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
@@ -152,10 +152,10 @@ public class FullTeleOP extends LinearOpMode {
             rightBackDrive.setPower(rightBackPower);
 
             //Bucket
-            if (gamepad2.y) {
+            if (gamepad2.y) { //dump less
                 bucket.dump();
             }
-            if (gamepad2.x) {
+            if (gamepad2.x) { //doesnt do anything
                 bucket.reset();
             }
 
@@ -163,7 +163,7 @@ public class FullTeleOP extends LinearOpMode {
             if (gamepad2.b) {
                 trainSlide.extend();
             }
-            if (gamepad2.a) {
+            if (gamepad2.a) { //extends, not retract
                 trainSlide.retract();
             }
 
@@ -171,12 +171,13 @@ public class FullTeleOP extends LinearOpMode {
             double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
             viperArm.operateArm(telemetry, armPower);
 
-            //Active Intake
+            //Benson
             if (gamepad2.left_bumper) {
                 intake.rotateOut(telemetry);
+                intake.startSpin(telemetry);
             }
             if (gamepad2.right_bumper) {
-                intake.rotateIn(telemetry);
+                intake.rotateIn(telemetry); //only this part doesntwork
                 intake.stopSpin(telemetry);
             }
 

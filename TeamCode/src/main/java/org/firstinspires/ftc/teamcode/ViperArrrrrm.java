@@ -21,7 +21,7 @@ public class ViperArrrrrm extends LinearOpMode {
 
     void initialize(HardwareMap hwm){
         viperArm = hwm.get(DcMotor.class, Constants.VIPER_ARM);
-        viperArm.setDirection(DcMotor.Direction.FORWARD);
+        viperArm.setDirection(DcMotor.Direction.REVERSE);
     }
     void operateArm(Telemetry telemetry, double armPower){
         double max = 1;
