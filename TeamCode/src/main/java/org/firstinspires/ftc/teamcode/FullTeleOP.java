@@ -104,6 +104,10 @@ public class FullTeleOP extends LinearOpMode {
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -176,10 +180,17 @@ public class FullTeleOP extends LinearOpMode {
             //Benson
             if (gamepad2.left_bumper) {
                 intake.rotateOut(telemetry);
-                intake.startSpin(telemetry);
             }
             if (gamepad2.right_bumper) {
-                intake.rotateIn(telemetry); //only this part doesntwork
+                intake.rotateIn(telemetry);
+            }
+            if (gamepad2.dpad_up) {
+                intake.reverseSpin(telemetry);
+            }
+            if (gamepad2.dpad_down) {
+                intake.startSpin(telemetry);
+            }
+            if (gamepad2.dpad_right) {
                 intake.stopSpin(telemetry);
             }
 

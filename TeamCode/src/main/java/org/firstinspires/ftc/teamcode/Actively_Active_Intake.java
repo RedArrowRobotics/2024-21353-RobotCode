@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.time.temporal.Temporal;
+
 @TeleOp(name="BensonIntake", group="Linear OpMode")
 public class Actively_Active_Intake extends LinearOpMode {
 
@@ -23,11 +25,11 @@ public class Actively_Active_Intake extends LinearOpMode {
         spin.setDirection(DcMotorSimple.Direction.FORWARD);
     }
     void rotateOut(Telemetry telemetry){
-        rotate.setPosition(135);
+        rotate.setPosition(.775);
         telemetry.addData("Intake Position", "%4.2f", rotate.getPosition());
     }
     void rotateIn(Telemetry telemetry){
-        rotate.setPosition(90);
+        rotate.setPosition(0.1);
         telemetry.addData("Intake Position", "%4.2f", rotate.getPosition());
     }
     void startSpin(Telemetry telemetry){
@@ -36,6 +38,10 @@ public class Actively_Active_Intake extends LinearOpMode {
     }
     void stopSpin(Telemetry telemetry){
         spin.setPower(0);
+        telemetry.addData("Intake Power", "%4.2f", spin.getPower());
+    }
+    void reverseSpin(Telemetry telemetry){
+        spin.setPower(-1);
         telemetry.addData("Intake Power", "%4.2f", spin.getPower());
     }
     public void runOpMode() {
