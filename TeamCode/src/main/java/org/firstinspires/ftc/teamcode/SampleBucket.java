@@ -14,10 +14,10 @@ public class SampleBucket extends LinearOpMode {
          bucket.setDirection(Servo.Direction.REVERSE);
     }
     void dump(){
-        bucket.setPosition(135);
+        bucket.setPosition(.5);
     }
     void reset(){
-        bucket.setPosition(90);
+        bucket.setPosition(.025);
     }
 
     public void runOpMode() {
@@ -35,5 +35,9 @@ public class SampleBucket extends LinearOpMode {
             telemetry.addData("train power", "%4.2f", bucket.getPosition());
             telemetry.update();
         }
+    }
+
+    public Object getPosition() {
+        return null;
     }
 }

@@ -101,9 +101,13 @@ public class FullTeleOP extends LinearOpMode {
         telemetry.update();
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -152,35 +156,42 @@ public class FullTeleOP extends LinearOpMode {
             rightBackDrive.setPower(rightBackPower);
 
             //Bucket
-            if (gamepad2.y) {
+            if (gamepad2.y) { //dump less
                 bucket.dump();
             }
-            if (gamepad2.x) {
+            if (gamepad2.x) { //doesnt do anything
                 bucket.reset();
             }
+            telemetry.addData("Bucket Servo", "%4.2f", bucket.getPosition());
+
 
             //Train Slide
             if (gamepad2.b) {
                 trainSlide.extend();
             }
-            if (gamepad2.a) {
+            if (gamepad2.a) { //extends, not retract
                 trainSlide.retract();
             }
 
             //Viper Arm
-            while (opModeIsActive()) {
-                double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
-                viperArm.operateArm(armPower);
-            }
+            double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
+            viperArm.operateArm(telemetry, armPower);
 
-            //Active Intake
+            //Benson
             if (gamepad2.left_bumper) {
-                intake.rotateOut();
-                intake.startSpin();
+                intake.rotateOut(telemetry);
             }
             if (gamepad2.right_bumper) {
-                intake.rotateIn();
-                intake.stopSpin();
+                intake.rotateIn(telemetry);
+            }
+            if (gamepad2.dpad_up) {
+                intake.reverseSpin(telemetry);
+            }
+            if (gamepad2.dpad_down) {
+                intake.startSpin(telemetry);
+            }
+            if (gamepad2.dpad_right) {
+                intake.stopSpin(telemetry);
             }
 
             // Show the elapsed game time and wheel power.
@@ -191,3 +202,4 @@ public class FullTeleOP extends LinearOpMode {
         }
     }
 }
+
