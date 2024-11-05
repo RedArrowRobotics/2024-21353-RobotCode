@@ -154,6 +154,8 @@ public class FullTeleOP extends LinearOpMode {
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
+            //make the power slope more shallow so its easier to go slower
+            //strafing is wonky because the weight distribution is all on the back wheels
 
             //Bucket
             if (gamepad2.y) {
@@ -163,20 +165,11 @@ public class FullTeleOP extends LinearOpMode {
             }
             telemetry.addData("Bucket Servo", "%4.2f", bucket.getPosition());
 
-
-            /*Train Slide
-            if (gamepad2.b) {
-                trainSlide.extend();
-            }
-            if (gamepad2.a) { //extends, not retract
-                trainSlide.retract();
-            }
-            */
             //Viper Arm
             double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
             viperArm.operateArm(telemetry, armPower);
 
-            //Benson
+            //Benson and Train
             if (gamepad2.left_bumper) {
                 trainSlide.extend();
                 intake.rotateOut(telemetry);
@@ -190,17 +183,6 @@ public class FullTeleOP extends LinearOpMode {
             if (gamepad2.dpad_right) {
                 intake.reverseSpin(telemetry);
             }
-            /*
-            if (gamepad2.dpad_up) {
-                intake.reverseSpin(telemetry);
-            }
-            if (gamepad2.dpad_down) {
-                intake.startSpin(telemetry);
-            }
-            if (gamepad2.dpad_right) {
-                intake.stopSpin(telemetry);
-            }
-            */
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
