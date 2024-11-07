@@ -12,14 +12,14 @@ public class Train extends LinearOpMode {
     Servo trainSlide;
 
     void initialize(HardwareMap hwm){
-        Servo trainSlide = hwm.get(Servo.class, Constants.TRAIN_SLIDE);
+        trainSlide = hwm.get(Servo.class, Constants.TRAIN_SLIDE);
         trainSlide.setDirection(Servo.Direction.FORWARD);
     }
     void extend(){
-        trainSlide.setPosition(0);
+        trainSlide.setPosition(trainSlide.getPosition()+10);
     }
     void retract(){
-        trainSlide.setPosition(135);
+        trainSlide.setPosition(trainSlide.getPosition()-10);
     }
 
     public void runOpMode() {

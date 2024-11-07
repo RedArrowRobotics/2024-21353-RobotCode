@@ -101,9 +101,13 @@ public class FullTeleOP extends LinearOpMode {
         telemetry.update();
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -150,37 +154,34 @@ public class FullTeleOP extends LinearOpMode {
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
+            //make the power slope more shallow so its easier to go slower
+            //strafing is wonky because the weight distribution is all on the back wheels
 
             //Bucket
             if (gamepad2.y) {
                 bucket.dump();
-            }
-            if (gamepad2.x) {
+            } else if (!gamepad2.x) {
                 bucket.reset();
             }
-
-            //Train Slide
-            if (gamepad2.b) {
-                trainSlide.extend();
-            }
-            if (gamepad2.a) {
-                trainSlide.retract();
-            }
+            telemetry.addData("Bucket Servo", "%4.2f", bucket.getPosition());
 
             //Viper Arm
-            while (opModeIsActive()) {
-                double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
-                viperArm.operateArm(armPower);
-            }
+            double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
+            viperArm.operateArm(telemetry, armPower);
 
-            //Active Intake
+            //Benson and Train
             if (gamepad2.left_bumper) {
-                intake.rotateOut();
-                intake.startSpin();
+                trainSlide.extend();
+                intake.rotateOut(telemetry);
+                intake.startSpin(telemetry);
             }
             if (gamepad2.right_bumper) {
-                intake.rotateIn();
-                intake.stopSpin();
+                intake.stopSpin(telemetry);
+                intake.rotateIn(telemetry);
+                trainSlide.retract();
+            }
+            if (gamepad2.dpad_right) {
+                intake.reverseSpin(telemetry);
             }
 
             // Show the elapsed game time and wheel power.
@@ -191,3 +192,4 @@ public class FullTeleOP extends LinearOpMode {
         }
     }
 }
+

@@ -8,6 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import java.time.temporal.Temporal;
+
 @TeleOp(name="BensonIntake", group="Linear OpMode")
 public class Actively_Active_Intake extends LinearOpMode {
 
@@ -15,37 +19,41 @@ public class Actively_Active_Intake extends LinearOpMode {
     CRServo spin;
 
     void initialize(HardwareMap hwm){
-        Servo rotate = hwm.get(Servo.class, Constants.BENSON_INTAKE_ROTATE);
+        rotate = hwm.get(Servo.class, Constants.BENSON_INTAKE_ROTATE);
         rotate.setDirection(Servo.Direction.FORWARD);
-        CRServo spin = hwm.get(CRServo.class, Constants.BENSON_INTAKE_SPIN);
+        spin = hwm.get(CRServo.class, Constants.BENSON_INTAKE_SPIN);
         spin.setDirection(DcMotorSimple.Direction.FORWARD);
     }
-    void rotateOut(){
-        rotate.setPosition(135);
+    void rotateOut(Telemetry telemetry){
+        rotate.setPosition(.775);
         telemetry.addData("Intake Position", "%4.2f", rotate.getPosition());
     }
-    void rotateIn(){
-        rotate.setPosition(90);
+    void rotateIn(Telemetry telemetry){
+        rotate.setPosition(0.1);
         telemetry.addData("Intake Position", "%4.2f", rotate.getPosition());
     }
-    void startSpin(){
+    void startSpin(Telemetry telemetry){
         spin.setPower(1);
         telemetry.addData("Intake Power", "%4.2f", spin.getPower());
     }
-    void stopSpin(){
+    void stopSpin(Telemetry telemetry){
         spin.setPower(0);
+        telemetry.addData("Intake Power", "%4.2f", spin.getPower());
+    }
+    void reverseSpin(Telemetry telemetry){
+        spin.setPower(-1);
         telemetry.addData("Intake Power", "%4.2f", spin.getPower());
     }
     public void runOpMode() {
         initialize(hardwareMap);
         while (opModeIsActive()) {
             if (gamepad2.left_bumper) {
-                rotateOut();
-                startSpin();
+                rotateOut(telemetry);
+                startSpin(telemetry);
             }
             if (gamepad2.right_bumper) {
-                rotateIn();
-                stopSpin();
+                rotateIn(telemetry);
+                stopSpin(telemetry);
             }
             telemetry.addData("Intake Position", "%4.2f", rotate.getPosition());
             telemetry.addData("Intake Power", "%4.2f", spin.getPower());
