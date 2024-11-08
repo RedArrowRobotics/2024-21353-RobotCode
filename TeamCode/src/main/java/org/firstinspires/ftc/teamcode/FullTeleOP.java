@@ -38,6 +38,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -46,10 +47,10 @@ public class FullTeleOP extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFrontDrive = null;
-    private DcMotor leftBackDrive = null;
-    private DcMotor rightFrontDrive = null;
-    private DcMotor rightBackDrive = null;
+    private DcMotorEx leftFrontDrive = null;
+    private DcMotorEx leftBackDrive = null;
+    private DcMotorEx rightFrontDrive = null;
+    private DcMotorEx rightBackDrive = null;
     private IMU imu = null;
     private SampleBucket bucket = null;
     private Train trainSlide = null;
@@ -62,6 +63,11 @@ public class FullTeleOP extends LinearOpMode {
     RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
 
     double adjustControllerSensitivity(double input){
+        if(input > 0.1) {
+            input = input - 0.1;
+        }else if(input < -0.1) {
+            input = input + 0.1;
+        }
         double speed = input * Math.abs(input);
         return speed;
     }
@@ -74,10 +80,10 @@ public class FullTeleOP extends LinearOpMode {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, FL);
-        leftBackDrive  = hardwareMap.get(DcMotor.class, BL);
-        rightFrontDrive = hardwareMap.get(DcMotor.class, FR);
-        rightBackDrive = hardwareMap.get(DcMotor.class, BR);
+        leftFrontDrive  = hardwareMap.get(DcMotorEx.class, FL);
+        leftBackDrive  = hardwareMap.get(DcMotorEx.class, BL);
+        rightFrontDrive = hardwareMap.get(DcMotorEx.class, FR);
+        rightBackDrive = hardwareMap.get(DcMotorEx.class, BR);
 
         telemetry.addData("Status", "Finished getting drive motors..");
         telemetry.update();
@@ -108,6 +114,10 @@ public class FullTeleOP extends LinearOpMode {
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -150,10 +160,10 @@ public class FullTeleOP extends LinearOpMode {
             }
 
             // Send calculated power to wheels
-            leftFrontDrive.setPower(leftFrontPower);
-            rightFrontDrive.setPower(rightFrontPower);
-            leftBackDrive.setPower(leftBackPower);
-            rightBackDrive.setPower(rightBackPower);
+            leftFrontDrive.setVelocity(leftFrontPower * 537.6 * 312);
+            rightFrontDrive.setVelocity(rightFrontPower * 537.6 * 312);
+            leftBackDrive.setVelocity(leftBackPower * 537.6 * 312);
+            rightBackDrive.setVelocity(rightBackPower * 537.6 * 312);
             //make the power slope more shallow so its easier to go slower
             //strafing is wonky because the weight distribution is all on the back wheels
 
