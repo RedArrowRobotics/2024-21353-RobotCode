@@ -10,4 +10,5 @@ public class Constants {
     public static String TRAIN_SLIDE = "Conductor";
     public static String BENSON_INTAKE_ROTATE = "Benson Rotate";
     public static String BENSON_INTAKE_SPIN = "Benson Spin";
+    public static String TOUCH_SENSOR = "Deb";
 }
