@@ -33,6 +33,9 @@ import static org.firstinspires.ftc.teamcode.Constants.BL;
 import static org.firstinspires.ftc.teamcode.Constants.BR;
 import static org.firstinspires.ftc.teamcode.Constants.FL;
 import static org.firstinspires.ftc.teamcode.Constants.FR;
+import static org.firstinspires.ftc.teamcode.Constants.MOTOR_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.SCALE_FACTOR;
+import static org.firstinspires.ftc.teamcode.Constants.VELOCITY_SCALE_FACTOR;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -160,10 +163,10 @@ public class FullTeleOP extends LinearOpMode {
             }
 
             // Send calculated power to wheels
-            leftFrontDrive.setVelocity(leftFrontPower * 537.6 * 312);
-            rightFrontDrive.setVelocity(rightFrontPower * 537.6 * 312);
-            leftBackDrive.setVelocity(leftBackPower * 537.6 * 312);
-            rightBackDrive.setVelocity(rightBackPower * 537.6 * 312);
+            leftFrontDrive.setVelocity(leftFrontPower * VELOCITY_SCALE_FACTOR);
+            rightFrontDrive.setVelocity(rightFrontPower * VELOCITY_SCALE_FACTOR);
+            leftBackDrive.setVelocity(leftBackPower * VELOCITY_SCALE_FACTOR);
+            rightBackDrive.setVelocity(rightBackPower * VELOCITY_SCALE_FACTOR);
             //make the power slope more shallow so its easier to go slower
             //strafing is wonky because the weight distribution is all on the back wheels
 
