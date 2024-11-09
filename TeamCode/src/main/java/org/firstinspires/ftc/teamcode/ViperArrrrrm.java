@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@TeleOp(name="ViperArrrrrm", group="Linear OpMode")
 public class ViperArrrrrm {
     private DcMotor viperArm = null;
     private TouchSensor touchSensor;
@@ -23,8 +22,21 @@ public class ViperArrrrrm {
         viperArm = hwm.get(DcMotor.class, Constants.VIPER_ARM);
         viperArm.setDirection(DcMotor.Direction.REVERSE);
         viperArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        viperArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         touchSensor = hwm.get(TouchSensor.class, Constants.TOUCH_SENSOR);
     }
+
+    void home(){
+        viperArm.setTargetPosition(0);
+    }
+    void highBucket(){
+        viperArm.setTargetPosition(5914);
+    }
+    void lowBucket(){
+        viperArm.setTargetPosition(2500);
+    }
+
     void operateArm(Telemetry telemetry, double armPower){
         double max = 1;
         max = Math.max(max, Math.abs(armPower));
@@ -34,12 +46,19 @@ public class ViperArrrrrm {
 
         if (touchSensor.isPressed() && armPower < 0) {
             armPower = 0;
+            viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             telemetry.addData("Deb", "Pressed");
         } else {
             telemetry.addData("Deb", "Not Pressed");
         }
+        //upper limit
+        if (viperArm.getCurrentPosition() >= 5914 && armPower > 0){ //this is viper max height
+            armPower = 0;
+            telemetry.addData("Deb", "Upper Limit");
+        }
+
         viperArm.setPower(armPower);
         telemetry.addData("arm power", "%4.2f", armPower);
-        telemetry.update();
+        telemetry.addData("arm position (Ticks)", "%4.2f", viperArm.getCurrentPosition());
     }
 }
