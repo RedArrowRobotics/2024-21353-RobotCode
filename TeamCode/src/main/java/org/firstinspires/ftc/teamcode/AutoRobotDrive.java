@@ -144,6 +144,8 @@ public class AutoRobotDrive extends LinearOpMode {
     }
 
     //void forward
+        }
+        }
 
     @Override
     public void runOpMode() {
@@ -153,6 +155,8 @@ public class AutoRobotDrive extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, BL);
         rightFrontDrive = hardwareMap.get(DcMotor.class, FR);
         rightBackDrive = hardwareMap.get(DcMotor.class, BR);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
@@ -184,6 +188,11 @@ public class AutoRobotDrive extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        strafeRight(1076);
+        strafeRight(-1076); //strafe left
+
+
+
 //        while (opModeIsActive()) {
 //            telemetry.addData("Degrees", "%.1f", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
 //            telemetry.update();
@@ -213,6 +222,11 @@ public class AutoRobotDrive extends LinearOpMode {
         pause(2);
         imuDepends(2);
         pause(2);
+    //    pause(2);         \\
+    //    imuDepends(-45);  \\
+    //    pause(2);         \\
+    //    imuDepends(2);    \\
+    //    pause(2);         \\
 //        leftBackDrive.setPower(-TURN_SPEED);
 //        leftFrontDrive.setPower(-TURN_SPEED);
 //        rightBackDrive.setPower(TURN_SPEED);
