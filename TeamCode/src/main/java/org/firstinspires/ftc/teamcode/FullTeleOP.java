@@ -33,6 +33,7 @@ import static org.firstinspires.ftc.teamcode.Constants.BL;
 import static org.firstinspires.ftc.teamcode.Constants.BR;
 import static org.firstinspires.ftc.teamcode.Constants.FL;
 import static org.firstinspires.ftc.teamcode.Constants.FR;
+import static org.firstinspires.ftc.teamcode.Constants.TOUCH_SENSOR;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -40,6 +41,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @TeleOp(name="Full Teleop", group="Linear OpMode")
 public class FullTeleOP extends LinearOpMode {
