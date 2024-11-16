@@ -171,6 +171,17 @@ public class FullTeleOP extends LinearOpMode {
             double armPower = adjustControllerSensitivity(-gamepad2.left_stick_y);
             viperArm.operateArm(telemetry, armPower);
 
+            if (gamepad2.a) {
+                viperArm.home();
+                telemetry.addData("Deb", "Home");
+            } else if (gamepad2.b) {
+                viperArm.highBucket();
+                telemetry.addData("Deb", "High Bucket");
+            } if (gamepad2.x) {
+                viperArm.lowBucket();
+                telemetry.addData("Deb", "Low Bucket");
+            }
+
             //Benson and Train
             if (gamepad2.left_bumper) {
                 trainSlide.extend();
