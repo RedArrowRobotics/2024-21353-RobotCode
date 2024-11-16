@@ -215,6 +215,10 @@ public class AutoRobotDrive extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         forward(1612); //537.6 ticks per revolution, 3 revolutions
+        forward(-538); //backwards?
+        pause(2);
+        strafeRight(1076);
+        strafeRight(-1076); //strafe left
 
         // Step 4:  Stop
         leftBackDrive.setPower(0);
