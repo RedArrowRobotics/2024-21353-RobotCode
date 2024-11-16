@@ -11,4 +11,8 @@ public class Constants {
     public static String BENSON_INTAKE_ROTATE = "Benson Rotate";
     public static String BENSON_INTAKE_SPIN = "Benson Spin";
     public static String TOUCH_SENSOR = "Deb";
+
+    public static int MOTOR_SPEED = 312;
+    public static double TICKS_PER_REVOLUTION = 537.6;
+    public static double VELOCITY_SCALE_FACTOR = MOTOR_SPEED * TICKS_PER_REVOLUTION * 0.02;
 }

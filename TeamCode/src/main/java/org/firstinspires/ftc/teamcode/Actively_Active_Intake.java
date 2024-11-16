@@ -10,8 +10,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import java.time.temporal.Temporal;
-
 @TeleOp(name="BensonIntake", group="Linear OpMode")
 public class Actively_Active_Intake extends LinearOpMode {
 
