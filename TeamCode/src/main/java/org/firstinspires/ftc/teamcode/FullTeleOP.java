@@ -33,7 +33,6 @@ import static org.firstinspires.ftc.teamcode.Constants.BL;
 import static org.firstinspires.ftc.teamcode.Constants.BR;
 import static org.firstinspires.ftc.teamcode.Constants.FL;
 import static org.firstinspires.ftc.teamcode.Constants.FR;
-import static org.firstinspires.ftc.teamcode.Constants.MOTOR_SPEED;
 import static org.firstinspires.ftc.teamcode.Constants.VELOCITY_SCALE_FACTOR;
 import static org.firstinspires.ftc.teamcode.Constants.TOUCH_SENSOR;
 
