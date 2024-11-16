@@ -222,61 +222,6 @@ public class AutoRobotDrive extends LinearOpMode {
         strafeRight(1076);
         strafeRight(-1076); //strafe left
 
-
-
-//        while (opModeIsActive()) {
-//            telemetry.addData("Degrees", "%.1f", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-//            telemetry.update();
-//            if (gamepad1.a) {
-//                imu.resetYaw();
-//            }
-//        }
-        // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
-
-//        // Step 1:  Drive forward for 3 seconds
-//        leftBackDrive.setPower(FORWARD_SPEED);
-//        leftFrontDrive.setPower(FORWARD_SPEED);
-//        rightBackDrive.setPower(FORWARD_SPEED);
-//        rightFrontDrive.setPower(FORWARD_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-//            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.addData("Degrees", "%.1f", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-//            telemetry.update();
-//        }
-
-
-        // Step 2:  Spin right for 1.3 seconds
-    //    imuDepends(90);   \\
-    //    pause(2);         \\
-    //    imuDepends(-45);  \\
-    //    pause(2);         \\
-    //    imuDepends(2);    \\
-    //    pause(2);         \\
-//        leftBackDrive.setPower(-TURN_SPEED);
-//        leftFrontDrive.setPower(-TURN_SPEED);
-//        rightBackDrive.setPower(TURN_SPEED);
-//        rightFrontDrive.setPower(TURN_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 0.85)) {
-//            telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.addData("Degrees", "%.1f", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-//            telemetry.update();
-//
-//            //-78.76
-//        }
-
-//        // Step 3:  Drive Backward for 1 Second
-//        leftBackDrive.setPower(-FORWARD_SPEED);
-//        leftFrontDrive.setPower(-FORWARD_SPEED);
-//        rightBackDrive.setPower(-FORWARD_SPEED);
-//        rightFrontDrive.setPower(-FORWARD_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-//            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-//            //telemetry.update();
-//        }
-
         // Step 4:  Stop
         leftBackDrive.setPower(0);
         leftFrontDrive.setPower(0);
@@ -284,8 +229,6 @@ public class AutoRobotDrive extends LinearOpMode {
         rightFrontDrive.setPower(0);
 
         telemetry.addData("Path", "Complete");
-        telemetry.addData("DARN IT! IT DIDN'T WORK LIKE WE WANTED IT TO (probably)", "(╯°□°)╯︵ ┻━┻");
         telemetry.update();
-        sleep(10000);
     }
 }
