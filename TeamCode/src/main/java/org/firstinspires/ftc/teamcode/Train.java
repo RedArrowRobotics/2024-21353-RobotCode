@@ -16,10 +16,12 @@ public class Train extends LinearOpMode {
         trainSlide.setDirection(Servo.Direction.FORWARD);
     }
     void extend(){
-        trainSlide.setPosition(trainSlide.getPosition()+10);
+        //trainSlide.setPosition(trainSlide.getPosition()+0.4);
+        trainSlide.setPosition(.8);
     }
     void retract(){
-        trainSlide.setPosition(trainSlide.getPosition()-10);
+        //trainSlide.setPosition(trainSlide.getPosition()-0.4);
+        trainSlide.setPosition(.45);
     }
 
     public void runOpMode() {

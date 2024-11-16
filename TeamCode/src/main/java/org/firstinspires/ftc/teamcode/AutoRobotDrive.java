@@ -142,8 +142,30 @@ public class AutoRobotDrive extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < seconds)) { }
     }
-
-    //void forward
+    void forward(int ticks) {
+        while (leftFrontDrive.getCurrentPosition() < ticks) {
+            leftBackDrive.setPower(1);
+            leftFrontDrive.setPower(1);
+            rightBackDrive.setPower(1);
+            rightFrontDrive.setPower(1);
+        }
+        leftBackDrive.setPower(0);
+        leftFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+    }
+    void strafeRight(int ticks) {
+        while (leftFrontDrive.getCurrentPosition() < ticks) {
+            leftBackDrive.setPower(-1);
+            leftFrontDrive.setPower(1);
+            rightBackDrive.setPower(1);
+            rightFrontDrive.setPower(-1);
+        }
+        leftBackDrive.setPower(0);
+        leftFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+    }
 
     @Override
     public void runOpMode() {
@@ -153,8 +175,16 @@ public class AutoRobotDrive extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, BL);
         rightFrontDrive = hardwareMap.get(DcMotor.class, FR);
         rightBackDrive = hardwareMap.get(DcMotor.class, BR);
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
@@ -184,58 +214,13 @@ public class AutoRobotDrive extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-//        while (opModeIsActive()) {
-//            telemetry.addData("Degrees", "%.1f", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-//            telemetry.update();
-//            if (gamepad1.a) {
-//                imu.resetYaw();
-//            }
-//        }
-        // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-//        // Step 1:  Drive forward for 3 seconds
-//        leftBackDrive.setPower(FORWARD_SPEED);
-//        leftFrontDrive.setPower(FORWARD_SPEED);
-//        rightBackDrive.setPower(FORWARD_SPEED);
-//        rightFrontDrive.setPower(FORWARD_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-//            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.addData("Degrees", "%.1f", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-//            telemetry.update();
-//        }
-
-
-        // Step 2:  Spin right for 1.3 seconds
+        forward(1076); //537.6 ticks per revolution
         imuDepends(90);
+        forward(-538); //backwards?
         pause(2);
-        imuDepends(-45);
-        pause(2);
-        imuDepends(2);
-        pause(2);
-//        leftBackDrive.setPower(-TURN_SPEED);
-//        leftFrontDrive.setPower(-TURN_SPEED);
-//        rightBackDrive.setPower(TURN_SPEED);
-//        rightFrontDrive.setPower(TURN_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 0.85)) {
-//            telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.addData("Degrees", "%.1f", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-//            telemetry.update();
-//
-//            //-78.76
-//        }
-
-//        // Step 3:  Drive Backward for 1 Second
-//        leftBackDrive.setPower(-FORWARD_SPEED);
-//        leftFrontDrive.setPower(-FORWARD_SPEED);
-//        rightBackDrive.setPower(-FORWARD_SPEED);
-//        rightFrontDrive.setPower(-FORWARD_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-//            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-//            //telemetry.update();
-//        }
+        strafeRight(1076);
+        strafeRight(-1076); //strafe left
 
         // Step 4:  Stop
         leftBackDrive.setPower(0);
@@ -244,8 +229,6 @@ public class AutoRobotDrive extends LinearOpMode {
         rightFrontDrive.setPower(0);
 
         telemetry.addData("Path", "Complete");
-        telemetry.addData("DARN IT! IT DIDN'T WORK LIKE WE WANTED IT TO (probably)", "(╯°□°)╯︵ ┻━┻");
         telemetry.update();
-        sleep(10000);
     }
 }
