@@ -142,10 +142,30 @@ public class AutoRobotDrive extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < seconds)) { }
     }
-
-    //void forward
+    void forward(int ticks) {
+        while (leftFrontDrive.getCurrentPosition() < ticks) {
+            leftBackDrive.setPower(1);
+            leftFrontDrive.setPower(1);
+            rightBackDrive.setPower(1);
+            rightFrontDrive.setPower(1);
         }
+        leftBackDrive.setPower(0);
+        leftFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+    }
+    void strafeRight(int ticks) {
+        while (leftFrontDrive.getCurrentPosition() < ticks) {
+            leftBackDrive.setPower(-1);
+            leftFrontDrive.setPower(1);
+            rightBackDrive.setPower(1);
+            rightFrontDrive.setPower(-1);
         }
+        leftBackDrive.setPower(0);
+        leftFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+    }
 
     @Override
     public void runOpMode() {
@@ -155,10 +175,16 @@ public class AutoRobotDrive extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, BL);
         rightFrontDrive = hardwareMap.get(DcMotor.class, FR);
         rightBackDrive = hardwareMap.get(DcMotor.class, BR);
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
@@ -188,6 +214,11 @@ public class AutoRobotDrive extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+
+        forward(1076); //537.6 ticks per revolution
+        imuDepends(90);
+        forward(-538); //backwards?
+        pause(2);
         strafeRight(1076);
         strafeRight(-1076); //strafe left
 
@@ -216,12 +247,7 @@ public class AutoRobotDrive extends LinearOpMode {
 
 
         // Step 2:  Spin right for 1.3 seconds
-        imuDepends(90);
-        pause(2);
-        imuDepends(-45);
-        pause(2);
-        imuDepends(2);
-        pause(2);
+    //    imuDepends(90);   \\
     //    pause(2);         \\
     //    imuDepends(-45);  \\
     //    pause(2);         \\
