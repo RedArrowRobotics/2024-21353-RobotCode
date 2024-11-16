@@ -14,5 +14,5 @@ public class Constants {
 
     public static int MOTOR_SPEED = 312;
     public static double TICKS_PER_REVOLUTION = 537.6;
-    public static double VELOCITY_SCALE_FACTOR = MOTOR_SPEED * TICKS_PER_REVOLUTION * .9;
+    public static double VELOCITY_SCALE_FACTOR = MOTOR_SPEED * TICKS_PER_REVOLUTION * 0.02;
 }

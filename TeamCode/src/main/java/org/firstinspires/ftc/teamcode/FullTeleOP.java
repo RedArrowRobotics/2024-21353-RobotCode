@@ -34,7 +34,7 @@ import static org.firstinspires.ftc.teamcode.Constants.BR;
 import static org.firstinspires.ftc.teamcode.Constants.FL;
 import static org.firstinspires.ftc.teamcode.Constants.FR;
 import static org.firstinspires.ftc.teamcode.Constants.MOTOR_SPEED;
-import static org.firstinspires.ftc.teamcode.Constants.SCALE_FACTOR;
+//import static org.firstinspires.ftc.teamcode.Constants.SCALE_FACTOR;
 import static org.firstinspires.ftc.teamcode.Constants.VELOCITY_SCALE_FACTOR;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -66,10 +66,10 @@ public class FullTeleOP extends LinearOpMode {
     RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
 
     double adjustControllerSensitivity(double input){
-        if(input > 0.1) {
-            input = input - 0.1;
-        }else if(input < -0.1) {
-            input = input + 0.1;
+        if(input > 0.01) {
+            input = input - 0.01;
+        }else if(input < -0.01) {
+            input = input + 0.01;
         }
         double speed = input * Math.abs(input);
         return speed;
