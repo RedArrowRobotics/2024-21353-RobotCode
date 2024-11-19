@@ -135,19 +135,19 @@ public class FullTeleOP extends LinearOpMode {
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double maxPower = .65;
-            double axial   = adjustControllerSensitivity(-gamepad1.left_stick_y) * maxPower;  // Note: pushing stick forward gives negative value
-            double lateral =  adjustControllerSensitivity(gamepad1.left_stick_x) * maxPower * 1.5;
-            double yaw     =  adjustControllerSensitivity(-gamepad1.right_stick_x) * maxPower;
+            double axial = adjustControllerSensitivity(-gamepad1.left_stick_y) * maxPower;  // Note: pushing stick forward gives negative value
+            double lateral = adjustControllerSensitivity(gamepad1.left_stick_x) * maxPower * 1.5;
+            double yaw = adjustControllerSensitivity(-gamepad1.right_stick_x) * maxPower;
             telemetry.addData("axialPower", axial);
             telemetry.addData("lateralPower", lateral);
             telemetry.addData("yawPower", yaw);
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral - yaw;
+            double leftFrontPower = axial + lateral - yaw;
             double rightFrontPower = axial - lateral + yaw;
-            double leftBackPower   = axial - lateral - yaw;
-            double rightBackPower  = axial + lateral + yaw;
+            double leftBackPower = axial - lateral - yaw;
+            double rightBackPower = axial + lateral + yaw;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -156,17 +156,25 @@ public class FullTeleOP extends LinearOpMode {
             max = Math.max(max, Math.abs(rightBackPower));
 
             if (max > 1.0) {
-                leftFrontPower  /= max;
+                leftFrontPower /= max;
                 rightFrontPower /= max;
-                leftBackPower   /= max;
-                rightBackPower  /= max;
+                leftBackPower /= max;
+                rightBackPower /= max;
+            }
+
+            //Allow the robot to go faster or slower
+            double speedSetting;
+            if (gamepad1.left_bumper) {
+                speedSetting = 0.5;
+            } else {
+                speedSetting = 1;
             }
 
             // Send calculated power to wheels
-            leftFrontDrive.setVelocity(leftFrontPower * VELOCITY_SCALE_FACTOR);
-            rightFrontDrive.setVelocity(rightFrontPower * VELOCITY_SCALE_FACTOR);
-            leftBackDrive.setVelocity(leftBackPower * VELOCITY_SCALE_FACTOR);
-            rightBackDrive.setVelocity(rightBackPower * VELOCITY_SCALE_FACTOR);
+            leftFrontDrive.setVelocity(leftFrontPower * VELOCITY_SCALE_FACTOR * speedSetting);
+            rightFrontDrive.setVelocity(rightFrontPower * VELOCITY_SCALE_FACTOR * speedSetting);
+            leftBackDrive.setVelocity(leftBackPower * VELOCITY_SCALE_FACTOR * speedSetting);
+            rightBackDrive.setVelocity(rightBackPower * VELOCITY_SCALE_FACTOR * speedSetting);
             //make the power slope more shallow so its easier to go slower
             //strafing is wonky because the weight distribution is all on the back wheels
 
@@ -188,7 +196,8 @@ public class FullTeleOP extends LinearOpMode {
             } else if (gamepad2.b) {
                 viperArm.highBucket();
                 telemetry.addData("Deb", "High Bucket");
-            } if (gamepad2.x) {
+            }
+            if (gamepad2.x) {
                 viperArm.lowBucket();
                 telemetry.addData("Deb", "Low Bucket");
             }
