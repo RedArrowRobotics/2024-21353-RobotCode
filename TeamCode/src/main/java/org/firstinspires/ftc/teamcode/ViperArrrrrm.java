@@ -26,11 +26,11 @@ public class ViperArrrrrm {
     }
     void highBucket(){
         viperArm.setPower(1);
-        viperArm.setTargetPosition(11300);
+        viperArm.setTargetPosition(3000);
     }
     void lowBucket(){
         viperArm.setPower(1);
-        viperArm.setTargetPosition(7000);
+        viperArm.setTargetPosition(1700);
     }
 
     void operateArm(Telemetry telemetry, double armPower){
@@ -39,24 +39,16 @@ public class ViperArrrrrm {
             if (touchSensor.getValue() == 1) {
                 viperArm.setPower(0);
                 viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            } else {
+                viperArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 viperArm.setPower(1);
+            } else {
                 viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                viperArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                viperArm.setPower(1);
                 viperArm.setTargetPosition(viperArm.getCurrentPosition() - 100);
             }
         }
-        if (touchSensor.getValue() == 0) {
-            telemetry.addData("Deb", "Not Pressed");
-        } else {
-            telemetry.addData("Deb", "Pressed");
-        }
-        //upper limit
-        if (viperArm.getCurrentPosition() >= 11300 && armPower > 0){ //this is viper max height
-            armPower = 0;
-            telemetry.addData("Deb", "Upper Limit");
-        }
 
-        viperArm.setPower(armPower);
         telemetry.addData("arm power", "%4.2f", armPower);
         telemetry.addData("arm position (Ticks)", viperArm.getCurrentPosition());
     }
