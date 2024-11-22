@@ -10,10 +10,6 @@ public class ViperArrrrrm {
     private DcMotor viperArm = null;
     private TouchSensor touchSensor;
 
-    double adjustControllerSensitivity(double input){
-        return input * Math.abs(input);
-    }
-
     void initialize(HardwareMap hwm){
         viperArm = hwm.get(DcMotor.class, Constants.VIPER_ARM);
         viperArm.setDirection(DcMotor.Direction.REVERSE);
@@ -39,13 +35,20 @@ public class ViperArrrrrm {
 
     void operateArm(Telemetry telemetry, double armPower){
 
-        if (viperArm.getTargetPosition() == 0) {
-            touchSensor.getValue();
-            armPower = 0;
-            viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            telemetry.addData("Deb", "Pressed");
-        } else {
+        if ((viperArm.getTargetPosition() == 0) && (viperArm.getCurrentPosition() <= 0)) {
+            if (touchSensor.getValue() == 1) {
+                viperArm.setPower(0);
+                viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            } else {
+                viperArm.setPower(1);
+                viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                viperArm.setTargetPosition(viperArm.getCurrentPosition() - 100);
+            }
+        }
+        if (touchSensor.getValue() == 0) {
             telemetry.addData("Deb", "Not Pressed");
+        } else {
+            telemetry.addData("Deb", "Pressed");
         }
         //upper limit
         if (viperArm.getCurrentPosition() >= 11300 && armPower > 0){ //this is viper max height
