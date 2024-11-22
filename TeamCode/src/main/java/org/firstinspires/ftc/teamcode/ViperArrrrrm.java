@@ -30,11 +30,17 @@ public class ViperArrrrrm {
     }
     void highBucket(){
         viperArm.setPower(1);
-        viperArm.setTargetPosition(11300);
+        viperArm.setTargetPosition(3000);
     }
     void lowBucket(){
         viperArm.setPower(1);
-        viperArm.setTargetPosition(7000);
+        viperArm.setTargetPosition(1700);
+    }
+
+    boolean isMoving() {
+        int tolerance = 50;
+        return viperArm.getCurrentPosition() > viperArm.getTargetPosition() - tolerance &&
+                viperArm.getCurrentPosition() < viperArm.getTargetPosition() + tolerance;
     }
 
     void operateArm(Telemetry telemetry, double armPower){
