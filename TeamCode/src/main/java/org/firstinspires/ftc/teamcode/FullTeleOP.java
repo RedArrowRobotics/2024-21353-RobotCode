@@ -60,6 +60,9 @@ public class FullTeleOP extends LinearOpMode {
     private Train trainSlide = null;
     private ViperArrrrrm viperArm = null;
     private Actively_Active_Intake intake = null;
+    private SlewRateLimiter slewStraight = new SlewRateLimiter(0.1);
+    private SlewRateLimiter slewStrafe = new SlewRateLimiter(0.1);
+    private SlewRateLimiter slewRotate = new SlewRateLimiter(0.1);
 
     RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
     RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
@@ -139,6 +142,11 @@ public class FullTeleOP extends LinearOpMode {
             double axial   = adjustControllerSensitivity(-gamepad1.left_stick_y) * maxPower;  // Note: pushing stick forward gives negative value
             double lateral =  adjustControllerSensitivity(gamepad1.left_stick_x) * maxPower * 1.5;
             double yaw     =  adjustControllerSensitivity(-gamepad1.right_stick_x) * maxPower;
+
+            axial = slewStraight.limit(axial);
+            lateral = slewStrafe.limit(lateral);
+            yaw = slewRotate.limit(yaw);
+
             telemetry.addData("axialPower", axial);
             telemetry.addData("lateralPower", lateral);
             telemetry.addData("yawPower", yaw);
