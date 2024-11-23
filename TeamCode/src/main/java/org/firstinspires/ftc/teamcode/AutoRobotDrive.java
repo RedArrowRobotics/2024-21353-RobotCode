@@ -144,13 +144,14 @@ public class AutoRobotDrive extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < seconds)) { }
     }
+    double speed = FORWARD_SPEED;
     void forward(int ticks) {
         int initialPosition = leftFrontDrive.getCurrentPosition();
         while (leftFrontDrive.getCurrentPosition() < initialPosition + ticks) {
-            leftBackDrive.setPower(.5);
-            leftFrontDrive.setPower(.5);
-            rightBackDrive.setPower(.5);
-            rightFrontDrive.setPower(.5);
+            leftBackDrive.setPower(FORWARD_SPEED);
+            leftFrontDrive.setPower(FORWARD_SPEED);
+            rightBackDrive.setPower(FORWARD_SPEED);
+            rightFrontDrive.setPower(FORWARD_SPEED);
         }
         leftBackDrive.setPower(0);
         leftFrontDrive.setPower(0);
@@ -160,10 +161,10 @@ public class AutoRobotDrive extends LinearOpMode {
     void strafeRight(int ticks) {
         int initialPosition = leftFrontDrive.getCurrentPosition();
         while (leftFrontDrive.getCurrentPosition() < initialPosition + ticks) {
-            leftBackDrive.setPower(-.5);
-            leftFrontDrive.setPower(.5);
-            rightBackDrive.setPower(.5);
-            rightFrontDrive.setPower(-.5);
+            leftBackDrive.setPower(-FORWARD_SPEED);
+            leftFrontDrive.setPower(FORWARD_SPEED);
+            rightBackDrive.setPower(FORWARD_SPEED);
+            rightFrontDrive.setPower(-FORWARD_SPEED);
         }
         leftBackDrive.setPower(0);
         leftFrontDrive.setPower(0);
@@ -222,27 +223,28 @@ public class AutoRobotDrive extends LinearOpMode {
             // Wait for the game to start (driver presses PLAY)
             waitForStart();
 
+            //https://docs.google.com/presentation/d/1YXUsA9TEZqEWXgelkTtHTJpU_WC7BszZ3vHfWsJUsE0/edit?usp=sharing
+            //auton plan, b ^^^
+        
             //537.6 ticks per revolution
+            speed = -FORWARD_SPEED;
             forward(537);
+            speed = FORWARD_SPEED;
             pause(1);
             viperArm.highBucket();
-            runtime.reset();
             while (opModeIsActive() && viperArm.isMoving()) { }
             bucket.dump();
             pause(1);
             bucket.reset();
             pause(1);
             viperArm.home();
-            runtime.reset();
             while (opModeIsActive() && viperArm.isMoving()) { }
-            //imuDepends(-45);
-            //pause(1);
             int initialPosition = leftFrontDrive.getCurrentPosition();
-            while (leftFrontDrive.getCurrentPosition() < initialPosition + 1075.2) {
-                leftBackDrive.setPower(-.5);
+            while (leftBackDrive.getCurrentPosition() < initialPosition + 2688) { //5 revolutions
+                leftBackDrive.setPower(FORWARD_SPEED);
                 leftFrontDrive.setPower(0);
                 rightBackDrive.setPower(0);
-                rightFrontDrive.setPower(-.5);
+                rightFrontDrive.setPower(FORWARD_SPEED);
             }
 
             // Step 4:  Stop

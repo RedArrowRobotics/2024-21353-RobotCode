@@ -39,8 +39,8 @@ public class ViperArrrrrm {
 
     boolean isMoving() {
         int tolerance = 50;
-        return viperArm.getCurrentPosition() > viperArm.getTargetPosition() - tolerance &&
-                viperArm.getCurrentPosition() < viperArm.getTargetPosition() + tolerance;
+        return viperArm.getCurrentPosition() < viperArm.getTargetPosition() - tolerance ||
+                viperArm.getCurrentPosition() > viperArm.getTargetPosition() + tolerance;
     }
 
     void operateArm(Telemetry telemetry, double armPower){
