@@ -63,6 +63,7 @@ public class FullTeleOP extends LinearOpMode {
     private SlewRateLimiter slewStraight = new SlewRateLimiter(0.1);
     private SlewRateLimiter slewStrafe = new SlewRateLimiter(0.1);
     private SlewRateLimiter slewRotate = new SlewRateLimiter(0.1);
+    private L3D led = new L3D();
 
     RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
     RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
@@ -109,6 +110,7 @@ public class FullTeleOP extends LinearOpMode {
         viperArm.initialize(hardwareMap);
         trainSlide.initialize(hardwareMap);
         intake.initialize(hardwareMap);
+        led.initialize(hardwareMap);
 
         telemetry.addData("Status", "Finished Initializing Robot Components....");
         telemetry.update();
@@ -182,6 +184,10 @@ public class FullTeleOP extends LinearOpMode {
             //Bucket
             if (gamepad2.y) {
                 bucket.dump();
+                led.alternate();
+                led.alternate();
+                led.alternate();
+                led.alternate();
             } else if (!gamepad2.x) {
                 bucket.reset();
             }
