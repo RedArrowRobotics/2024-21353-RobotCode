@@ -71,6 +71,8 @@ public class AutoRobotDrive extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private DcMotor leftFrontDrive = null;
     private DcMotor rightFrontDrive = null;
+    private ViperArrrrrm viperArm = null;
+    private SampleBucket bucket = null;
 
     private IMU imu = null;
 
@@ -213,11 +215,15 @@ public class AutoRobotDrive extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        forward(1612); //537.6 ticks per revolution, 3 revolutions
-        forward(-538); //backwards?
-        pause(2);
-        strafeRight(1076);
-        strafeRight(-1076); //strafe left
+
+        //537.6 ticks per revolution
+        forward(537);
+        viperArm.highBucket();
+        bucket.dump();
+        pause(1);
+        bucket.reset();
+        viperArm.home();
+        imuDepends(-45);
 
         // Step 4:  Stop
         leftBackDrive.setPower(0);
