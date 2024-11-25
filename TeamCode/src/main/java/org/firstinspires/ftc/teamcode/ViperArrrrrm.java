@@ -35,14 +35,14 @@ public class ViperArrrrrm {
 
     void operateArm(Telemetry telemetry, double armPower){
 
-        if ((viperArm.getTargetPosition() <= 0) && (viperArm.getCurrentPosition() <= 0)) {
+        if (viperArm.getTargetPosition() <= 0) {
             if (touchSensor.getValue() == 1) {
                 viperArm.setTargetPosition(0);
                 viperArm.setPower(0);
                 viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 viperArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 viperArm.setPower(1);
-            } else {
+            } else if (touchSensor.getValue == 0 && viperArm.getCurrentPosition() <= 0) {
                 viperArm.setTargetPosition(viperArm.getCurrentPosition() - 100);
                 viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 viperArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
