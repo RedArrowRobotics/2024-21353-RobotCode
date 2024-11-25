@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
-@TeleOp(name="Train", group="Linear OpMode")
 public class Train extends LinearOpMode {
 
     Servo trainSlide;

@@ -171,11 +171,19 @@ public class FullTeleOP extends LinearOpMode {
                 rightBackPower  /= max;
             }
 
+            //Allow the robot to go faster or slower
+            double speedSetting;
+            if (gamepad1.left_bumper) {
+                speedSetting = 0.5;
+            } else {
+                speedSetting = 1;
+            }
+
             // Send calculated power to wheels
-            leftFrontDrive.setVelocity(leftFrontPower * VELOCITY_SCALE_FACTOR);
-            rightFrontDrive.setVelocity(rightFrontPower * VELOCITY_SCALE_FACTOR);
-            leftBackDrive.setVelocity(leftBackPower * VELOCITY_SCALE_FACTOR);
-            rightBackDrive.setVelocity(rightBackPower * VELOCITY_SCALE_FACTOR);
+            leftFrontDrive.setVelocity(leftFrontPower * VELOCITY_SCALE_FACTOR * speedSetting);
+            rightFrontDrive.setVelocity(rightFrontPower * VELOCITY_SCALE_FACTOR * speedSetting);
+            leftBackDrive.setVelocity(leftBackPower * VELOCITY_SCALE_FACTOR * speedSetting);
+            rightBackDrive.setVelocity(rightBackPower * VELOCITY_SCALE_FACTOR * speedSetting);
             //make the power slope more shallow so its easier to go slower
             //strafing is wonky because the weight distribution is all on the back wheels
 
@@ -197,7 +205,7 @@ public class FullTeleOP extends LinearOpMode {
             } else if (gamepad2.b) {
                 viperArm.highBucket();
                 telemetry.addData("Deb", "High Bucket");
-            } if (gamepad2.x) {
+            } else if (gamepad2.x) {
                 viperArm.lowBucket();
                 telemetry.addData("Deb", "Low Bucket");
             }
