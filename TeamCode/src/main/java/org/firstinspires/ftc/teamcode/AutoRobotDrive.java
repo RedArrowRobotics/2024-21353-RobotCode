@@ -71,6 +71,9 @@ public class AutoRobotDrive extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private DcMotor leftFrontDrive = null;
     private DcMotor rightFrontDrive = null;
+    
+    private ViperArrrrrm viperArm = new ViperArrrrrm();
+    private SampleBucket bucket = new SampleBucket();
 
     private IMU imu = null;
 
@@ -106,7 +109,7 @@ public class AutoRobotDrive extends LinearOpMode {
 
     private void imuDepends(double angle) {
         imu.resetYaw();
-        while (Math.abs(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)) < Math.abs(angle)) {
+        while (opModeIsActive() && Math.abs(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)) < Math.abs(angle)) {
             double currentImu = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
             double power = 0;
             if(Math.abs(currentImu) < Math.abs(angle)-45) {
@@ -141,12 +144,14 @@ public class AutoRobotDrive extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < seconds)) { }
     }
+    double speed = FORWARD_SPEED;
     void forward(int ticks) {
-        while (leftFrontDrive.getCurrentPosition() < ticks) {
-            leftBackDrive.setPower(1);
-            leftFrontDrive.setPower(1);
-            rightBackDrive.setPower(1);
-            rightFrontDrive.setPower(1);
+        int initialPosition = leftFrontDrive.getCurrentPosition();
+        while (leftFrontDrive.getCurrentPosition() < initialPosition + ticks) {
+            leftBackDrive.setPower(FORWARD_SPEED);
+            leftFrontDrive.setPower(FORWARD_SPEED);
+            rightBackDrive.setPower(FORWARD_SPEED);
+            rightFrontDrive.setPower(FORWARD_SPEED);
         }
         leftBackDrive.setPower(0);
         leftFrontDrive.setPower(0);
@@ -154,11 +159,12 @@ public class AutoRobotDrive extends LinearOpMode {
         rightFrontDrive.setPower(0);
     }
     void strafeRight(int ticks) {
-        while (leftFrontDrive.getCurrentPosition() < ticks) {
-            leftBackDrive.setPower(-1);
-            leftFrontDrive.setPower(1);
-            rightBackDrive.setPower(1);
-            rightFrontDrive.setPower(-1);
+        int initialPosition = leftFrontDrive.getCurrentPosition();
+        while (leftFrontDrive.getCurrentPosition() < initialPosition + ticks) {
+            leftBackDrive.setPower(-FORWARD_SPEED);
+            leftFrontDrive.setPower(FORWARD_SPEED);
+            rightBackDrive.setPower(FORWARD_SPEED);
+            rightFrontDrive.setPower(-FORWARD_SPEED);
         }
         leftBackDrive.setPower(0);
         leftFrontDrive.setPower(0);
@@ -169,63 +175,85 @@ public class AutoRobotDrive extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        // Initialize the drive system variables.
-        leftFrontDrive = hardwareMap.get(DcMotor.class, FL);
-        leftBackDrive = hardwareMap.get(DcMotor.class, BL);
-        rightFrontDrive = hardwareMap.get(DcMotor.class, FR);
-        rightBackDrive = hardwareMap.get(DcMotor.class, BR);
-        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            // Initialize the drive system variables.
+            leftFrontDrive = hardwareMap.get(DcMotor.class, FL);
+            leftBackDrive = hardwareMap.get(DcMotor.class, BL);
+            rightFrontDrive = hardwareMap.get(DcMotor.class, FR);
+            rightBackDrive = hardwareMap.get(DcMotor.class, BR);
+            leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+            viperArm.initialize(hardwareMap);
+            bucket.initialize(hardwareMap);
 
-        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+            RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
+            RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        imu.initialize(new IMU.Parameters(orientationOnRobot));
+            RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+
+            imu = hardwareMap.get(IMU.class, "imu");
+            imu.initialize(new IMU.Parameters(orientationOnRobot));
 
 
-        // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
-        // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
-        // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
+            // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
+            // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
+            leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+            leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+            rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+            rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+            leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        // Send telemetry message to signify robot waiting;
-        imu.resetYaw();
-        runtime.reset();
-        telemetry.addData("Status", "Ready to run");    //
-        telemetry.addData("Degrees", "%.1f", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-        telemetry.update();
+            // Send telemetry message to signify robot waiting;
+            imu.resetYaw();
+            runtime.reset();
+            telemetry.addData("Status", "Ready to run");    //
+            telemetry.addData("Degrees", "%.1f", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            telemetry.update();
 
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
-        forward(1612); //537.6 ticks per revolution, 3 revolutions
-        forward(-538); //backwards?
-        pause(2);
-        strafeRight(1076);
-        strafeRight(-1076); //strafe left
+            // Wait for the game to start (driver presses PLAY)
+            waitForStart();
 
-        // Step 4:  Stop
-        leftBackDrive.setPower(0);
-        leftFrontDrive.setPower(0);
-        rightBackDrive.setPower(0);
-        rightFrontDrive.setPower(0);
+            //https://docs.google.com/presentation/d/1YXUsA9TEZqEWXgelkTtHTJpU_WC7BszZ3vHfWsJUsE0/edit?usp=sharing
+            //auton plan, b ^^^
+        
+            //537.6 ticks per revolution
+            speed = -FORWARD_SPEED;
+            forward(537);
+            speed = FORWARD_SPEED;
+            pause(1);
+            viperArm.highBucket();
+            while (opModeIsActive() && viperArm.isMoving()) { }
+            bucket.dump();
+            pause(1);
+            bucket.reset();
+            pause(1);
+            viperArm.home();
+            while (opModeIsActive() && viperArm.isMoving()) { }
+            int initialPosition = leftFrontDrive.getCurrentPosition();
+            while (leftBackDrive.getCurrentPosition() < initialPosition + 2688) { //5 revolutions
+                leftBackDrive.setPower(FORWARD_SPEED);
+                leftFrontDrive.setPower(0);
+                rightBackDrive.setPower(0);
+                rightFrontDrive.setPower(FORWARD_SPEED);
+            }
 
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
+            // Step 4:  Stop
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+
+            telemetry.addData("Path", "Complete");
+            telemetry.update();
     }
 }
