@@ -11,6 +11,9 @@ public class Constants {
     public static String BENSON_INTAKE_ROTATE = "Benson Rotate";
     public static String BENSON_INTAKE_SPIN = "Benson Spin";
     public static String TOUCH_SENSOR = "Deb";
+    public static String LED_R = "R3D L3D";
+    public static String LED_G = "GR33N L3D";
+
 
     public static int MOTOR_SPEED = 312;
     public static double TICKS_PER_REVOLUTION = 537.6;
