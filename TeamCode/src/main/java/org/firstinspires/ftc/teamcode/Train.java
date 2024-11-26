@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
-@TeleOp(name="Train", group="Linear OpMode")
-public class Train extends LinearOpMode {
+public class Train {
 
     DcMotor trainSlide;
 
@@ -25,22 +22,5 @@ public class Train extends LinearOpMode {
     void retract(){
         trainSlide.setPower(.5);
         trainSlide.setTargetPosition(0);
-    }
-
-    public void runOpMode() {
-        initialize(hardwareMap);
-        waitForStart();
-        while (opModeIsActive()) {
-            if (gamepad2.b) {
-                extend();
-                telemetry.addData("Drawer Power", "%4.2f", trainSlide.getCurrentPosition());
-            }
-            if (gamepad2.a) {
-                retract();
-                telemetry.addData("Drawer Power", "%4.2f", trainSlide.getCurrentPosition());
-            }
-            telemetry.addData("Drawer Power", "%4.2f", trainSlide.getCurrentPosition());
-            telemetry.update();
-        }
     }
 }
