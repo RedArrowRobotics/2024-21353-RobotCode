@@ -184,10 +184,6 @@ public class FullTeleOP extends LinearOpMode {
             //Bucket
             if (gamepad2.y) {
                 bucket.dump();
-                led.alternate();
-                led.alternate();
-                led.alternate();
-                led.alternate();
             } else if (!gamepad2.x) {
                 bucket.reset();
             }
@@ -222,6 +218,8 @@ public class FullTeleOP extends LinearOpMode {
             if (gamepad2.dpad_right) {
                 intake.reverseSpin(telemetry);
             }
+
+            led.pattern();
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
