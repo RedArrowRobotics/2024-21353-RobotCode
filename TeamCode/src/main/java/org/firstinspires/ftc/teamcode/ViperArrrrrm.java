@@ -26,11 +26,11 @@ public class ViperArrrrrm {
     }
     void highBucket(){
         viperArm.setPower(1);
-        viperArm.setTargetPosition(3000);
+        viperArm.setTargetPosition(3100);
     }
     void lowBucket(){
         viperArm.setPower(1);
-        viperArm.setTargetPosition(1700);
+        viperArm.setTargetPosition(1800);
 
     }
 
@@ -49,7 +49,7 @@ public class ViperArrrrrm {
                 viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 viperArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 viperArm.setPower(1);
-            } else if (touchSensor.getValue == 0 && viperArm.getCurrentPosition() <= 0) {
+            } else if (touchSensor.getValue() == 0 && viperArm.getCurrentPosition() <= 0) {
                 viperArm.setTargetPosition(viperArm.getCurrentPosition() - 100);
                 viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 viperArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
