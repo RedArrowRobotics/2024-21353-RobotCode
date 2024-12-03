@@ -190,7 +190,7 @@ public class FullTeleOP extends LinearOpMode {
             //Bucket
             if (gamepad2.y) {
                 bucket.dump();
-            } else if (!gamepad2.x) {
+            } else if (!gamepad2.y) {
                 bucket.reset();
             }
             telemetry.addData("Bucket Servo", "%4.2f", bucket.getPosition());

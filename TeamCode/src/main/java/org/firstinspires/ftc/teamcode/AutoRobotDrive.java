@@ -145,26 +145,26 @@ public class AutoRobotDrive extends LinearOpMode {
         while (opModeIsActive() && (runtime.seconds() < seconds)) { }
     }
     double speed = FORWARD_SPEED;
-    void forward(int ticks) {
+    void forward(double speed, int ticks) {
         int initialPosition = leftFrontDrive.getCurrentPosition();
         while (leftFrontDrive.getCurrentPosition() < initialPosition + ticks) {
-            leftBackDrive.setPower(FORWARD_SPEED);
-            leftFrontDrive.setPower(FORWARD_SPEED);
-            rightBackDrive.setPower(FORWARD_SPEED);
-            rightFrontDrive.setPower(FORWARD_SPEED);
+            leftBackDrive.setPower(speed);
+            leftFrontDrive.setPower(speed);
+            rightBackDrive.setPower(speed);
+            rightFrontDrive.setPower(speed);
         }
         leftBackDrive.setPower(0);
         leftFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
         rightFrontDrive.setPower(0);
     }
-    void strafeRight(int ticks) {
+    void strafeRight(double speed, int ticks) {
         int initialPosition = leftFrontDrive.getCurrentPosition();
         while (leftFrontDrive.getCurrentPosition() < initialPosition + ticks) {
-            leftBackDrive.setPower(-FORWARD_SPEED);
-            leftFrontDrive.setPower(FORWARD_SPEED);
-            rightBackDrive.setPower(FORWARD_SPEED);
-            rightFrontDrive.setPower(-FORWARD_SPEED);
+            leftBackDrive.setPower(-speed);
+            leftFrontDrive.setPower(speed);
+            rightBackDrive.setPower(speed);
+            rightFrontDrive.setPower(-speed);
         }
         leftBackDrive.setPower(0);
         leftFrontDrive.setPower(0);
@@ -223,13 +223,8 @@ public class AutoRobotDrive extends LinearOpMode {
             // Wait for the game to start (driver presses PLAY)
             waitForStart();
 
-            //https://docs.google.com/presentation/d/1YXUsA9TEZqEWXgelkTtHTJpU_WC7BszZ3vHfWsJUsE0/edit?usp=sharing
-            //auton plan, b ^^^
-        
             //537.6 ticks per revolution
-            speed = -FORWARD_SPEED;
-            forward(537);
-            speed = FORWARD_SPEED;
+            forward(-FORWARD_SPEED, -537);
             pause(1);
             viperArm.highBucket();
             while (opModeIsActive() && viperArm.isMoving()) { }
