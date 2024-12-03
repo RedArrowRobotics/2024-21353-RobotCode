@@ -17,7 +17,7 @@ public class Train {
     }
     void extend(){
         trainSlide.setPower(.5);
-        trainSlide.setTargetPosition(100);
+        trainSlide.setTargetPosition(1000);
     }
     void retract(){
         trainSlide.setPower(.5);

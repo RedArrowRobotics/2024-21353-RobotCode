@@ -147,11 +147,20 @@ public class AutoRobotDrive extends LinearOpMode {
     double speed = FORWARD_SPEED;
     void forward(double speed, int ticks) {
         int initialPosition = leftFrontDrive.getCurrentPosition();
-        while (leftFrontDrive.getCurrentPosition() < initialPosition + ticks) {
-            leftBackDrive.setPower(speed);
-            leftFrontDrive.setPower(speed);
-            rightBackDrive.setPower(speed);
-            rightFrontDrive.setPower(speed);
+        if (ticks > 0) {
+            while (leftFrontDrive.getCurrentPosition() < initialPosition + ticks) {
+                leftBackDrive.setPower(speed);
+                leftFrontDrive.setPower(speed);
+                rightBackDrive.setPower(speed);
+                rightFrontDrive.setPower(speed);
+            }
+        }else{
+            while (leftFrontDrive.getCurrentPosition() > initialPosition + ticks) {
+                leftBackDrive.setPower(speed);
+                leftFrontDrive.setPower(speed);
+                rightBackDrive.setPower(speed);
+                rightFrontDrive.setPower(speed);
+            }
         }
         leftBackDrive.setPower(0);
         leftFrontDrive.setPower(0);
@@ -160,16 +169,21 @@ public class AutoRobotDrive extends LinearOpMode {
     }
     void strafeRight(double speed, int ticks) {
         int initialPosition = leftFrontDrive.getCurrentPosition();
-        while (leftFrontDrive.getCurrentPosition() < initialPosition + ticks) {
-            leftBackDrive.setPower(-speed);
-            leftFrontDrive.setPower(speed);
-            rightBackDrive.setPower(speed);
-            rightFrontDrive.setPower(-speed);
+        if (ticks > 0) {
+            while (leftFrontDrive.getCurrentPosition() < initialPosition + ticks) {
+                leftBackDrive.setPower(-speed);
+                leftFrontDrive.setPower(speed);
+                rightBackDrive.setPower(speed);
+                rightFrontDrive.setPower(-speed);
+            }
+        }else{
+            while (leftFrontDrive.getCurrentPosition() > initialPosition + ticks) {
+                leftBackDrive.setPower(-speed);
+                leftFrontDrive.setPower(speed);
+                rightBackDrive.setPower(speed);
+                rightFrontDrive.setPower(-speed);
+            }
         }
-        leftBackDrive.setPower(0);
-        leftFrontDrive.setPower(0);
-        rightBackDrive.setPower(0);
-        rightFrontDrive.setPower(0);
     }
 
     @Override
@@ -224,7 +238,14 @@ public class AutoRobotDrive extends LinearOpMode {
             waitForStart();
 
             //537.6 ticks per revolution
-            forward(-FORWARD_SPEED, -537);
+            //forward(-FORWARD_SPEED, -537);
+            int initialPosition = leftFrontDrive.getCurrentPosition();
+            while (leftBackDrive.getCurrentPosition() < initialPosition + 269) { //0.5 revolutions
+            leftBackDrive.setPower(-FORWARD_SPEED);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(-FORWARD_SPEED);
+            }
             pause(1);
             viperArm.highBucket();
             while (opModeIsActive() && viperArm.isMoving()) { }
@@ -234,8 +255,8 @@ public class AutoRobotDrive extends LinearOpMode {
             pause(1);
             viperArm.home();
             while (opModeIsActive() && viperArm.isMoving()) { }
-            int initialPosition = leftFrontDrive.getCurrentPosition();
-            while (leftBackDrive.getCurrentPosition() < initialPosition + 2688) { //5 revolutions
+            initialPosition = leftFrontDrive.getCurrentPosition();
+            while (leftBackDrive.getCurrentPosition() < initialPosition + 5370) { //5 revolutions
                 leftBackDrive.setPower(FORWARD_SPEED);
                 leftFrontDrive.setPower(0);
                 rightBackDrive.setPower(0);
