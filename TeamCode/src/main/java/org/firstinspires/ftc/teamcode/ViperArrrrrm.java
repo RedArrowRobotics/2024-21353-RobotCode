@@ -34,6 +34,17 @@ public class ViperArrrrrm {
 
     }
 
+    boolean isMoving2(){
+        return viperArm.isBusy();
+    }
+    boolean isMoving3(){
+        if (viperArm.getPower() != 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     boolean isMoving() {
         int tolerance = 50;
         return viperArm.getCurrentPosition() < viperArm.getTargetPosition() - tolerance ||
