@@ -7,12 +7,13 @@ import static org.firstinspires.ftc.teamcode.Constants.FL;
 import static org.firstinspires.ftc.teamcode.Constants.FR;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name = "Auton Straight", group = "Robot")
-public class AutonStraight {
+public class AutonStraight extends LinearOpMode {
     private DcMotor leftBackDrive = null;
-    private DcMotor rightBackDrive = null;
+    private DcMotor rightBackDrive =    null;
     private DcMotor leftFrontDrive = null;
     private DcMotor rightFrontDrive = null;
 
@@ -51,7 +52,7 @@ public class AutonStraight {
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
+        waitForStart();
         forward(2150); //4 revolutions
     }
 }
