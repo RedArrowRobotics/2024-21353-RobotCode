@@ -10,10 +10,6 @@ public class ViperArrrrrm {
     private DcMotor viperArm = null;
     private TouchSensor touchSensor;
 
-    double adjustControllerSensitivity(double input){
-        return input * Math.abs(input);
-    }
-
     void initialize(HardwareMap hwm){
         viperArm = hwm.get(DcMotor.class, Constants.VIPER_ARM);
         viperArm.setDirection(DcMotor.Direction.REVERSE);
@@ -30,11 +26,23 @@ public class ViperArrrrrm {
     }
     void highBucket(){
         viperArm.setPower(1);
-        viperArm.setTargetPosition(3000);
+        viperArm.setTargetPosition(3100);
     }
     void lowBucket(){
         viperArm.setPower(1);
-        viperArm.setTargetPosition(1700);
+        viperArm.setTargetPosition(1800);
+
+    }
+
+    boolean isMoving2(){
+        return viperArm.isBusy();
+    }
+    boolean isMoving3(){
+        if (viperArm.getPower() != 0){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     boolean isMoving() {
@@ -44,27 +52,25 @@ public class ViperArrrrrm {
     }
 
     void operateArm(Telemetry telemetry, double armPower){
-//        double max = 1;
-//        max = Math.max(max, Math.abs(armPower));
-//        if (armPower > max) {
-//            armPower = max;
-//        }
-//
-//        if (touchSensor.isPressed() && armPower < 0) {
-//            armPower = 0;
-//            viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//            telemetry.addData("Deb", "Pressed");
-//        } else {
-//            telemetry.addData("Deb", "Not Pressed");
-//        }
-//        //upper limit
-//        if (viperArm.getCurrentPosition() >= 11300 && armPower > 0){ //this is viper max height
-//            armPower = 0;
-//            telemetry.addData("Deb", "Upper Limit");
-//        }
-//
-//        viperArm.setPower(armPower);
-//        telemetry.addData("arm power", "%4.2f", armPower);
+
+        if (viperArm.getTargetPosition() <= 0) {
+            if (touchSensor.getValue() == 1) {
+                viperArm.setTargetPosition(0);
+                viperArm.setPower(0);
+                viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                viperArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                viperArm.setPower(1);
+            } else if (touchSensor.getValue() == 0 && viperArm.getCurrentPosition() <= 0) {
+                viperArm.setTargetPosition(viperArm.getCurrentPosition() - 100);
+                viperArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                viperArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                viperArm.setPower(1);
+            }
+        }
+
+        telemetry.addData("button push", "%4.2f", touchSensor.getValue());
+        telemetry.addData("arm power", "%4.2f", armPower);
         telemetry.addData("arm position (Ticks)", viperArm.getCurrentPosition());
+        telemetry.addData("arm destination (Ticks)", viperArm.getTargetPosition());
     }
 }
