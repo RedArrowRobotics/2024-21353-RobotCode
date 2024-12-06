@@ -31,43 +31,43 @@ public class L3D {
 
     void pattern() {
         loops = loops + 1;
-        if (loops < 250) {
+        if (loops < 1) {
             red();
         }
-        if (loops >= 250 && loops < 500) {
+        if (loops >= 1 && loops < 2) {
             off();
         }
-        if (loops >= 500 && loops < 750) {
+        if (loops >= 2 && loops < 3) {
             red();
         }
-        if (loops >= 750 && loops < 1000) {
+        if (loops >= 3 && loops < 4) {
             off();
         }
-        if (loops >= 1000 && loops < 1250) {
+        if (loops >= 4 && loops < 5) {
             red();
         }
-        if (loops >= 1250 && loops < 1500) {
+        if (loops >= 5 && loops < 6) {
             off();
         }
-        if (loops >= 1500 && loops < 1750) {
+        if (loops >= 7 && loops < 8) {
             green();
         }
-        if (loops >= 1750 && loops < 2000) {
+        if (loops >= 8 && loops < 9) {
             off();
         }
-        if (loops >= 2000 && loops < 2250) {
+        if (loops >= 9 && loops < 10) {
             green();
         }
-        if (loops >= 2250 && loops < 2500) {
+        if (loops >= 10 && loops < 11) {
             off();
         }
-        if (loops >= 1000 && loops < 1250) {
+        if (loops >= 11 && loops < 12) {
             green();
         }
-        if (loops >= 1250 && loops < 1500) {
+        if (loops >= 12 && loops < 13) {
             off();
         }
-        if (loops >= 1500) {
+        if (loops >= 13) {
             loops = 0;
         }
     }

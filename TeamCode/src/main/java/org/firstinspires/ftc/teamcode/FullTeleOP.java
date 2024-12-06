@@ -228,6 +228,7 @@ public class FullTeleOP extends LinearOpMode {
             }
 
             led.pattern();
+            telemetry.addData("Loop: ", led.loops);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Train Position", trainSlide.trainSlide.getCurrentPosition());
