@@ -244,19 +244,21 @@ public class AutoRobotDrive extends LinearOpMode {
             bucket.reset();
             //forward(-FORWARD_SPEED, -537);
             int initialPosition = leftFrontDrive.getCurrentPosition();
-            while (leftBackDrive.getCurrentPosition() < initialPosition + 269) { //0.5 revolutions
-            leftBackDrive.setPower(-FORWARD_SPEED);
+            while (leftBackDrive.getCurrentPosition() > initialPosition - 269) { //0.5 revolutions
+            leftBackDrive.setPower(-0.6);
             leftFrontDrive.setPower(0);
             rightBackDrive.setPower(0);
-            rightFrontDrive.setPower(-FORWARD_SPEED);
+            rightFrontDrive.setPower(-0.6);
             }
-            pause(1);
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
             viperArm.highBucket();
             while (opModeIsActive() && viperArm.isMoving2()) { }
             bucket.dump();
             pause(1);
             bucket.reset();
-            pause(1);
             viperArm.home();
             while (opModeIsActive() && viperArm.isMoving2()) { }
             initialPosition = leftFrontDrive.getCurrentPosition();
