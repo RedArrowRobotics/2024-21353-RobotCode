@@ -256,6 +256,7 @@ public class AutoRobotDrive extends LinearOpMode {
             rightFrontDrive.setPower(0);
             viperArm.highBucket();
             while (opModeIsActive() && viperArm.isMoving2()) { }
+            pause(.2);
             bucket.dump();
             pause(1);
             bucket.reset();
