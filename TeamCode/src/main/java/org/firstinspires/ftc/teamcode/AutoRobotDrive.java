@@ -79,6 +79,8 @@ public class AutoRobotDrive extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+    private L3D led = new L3D();
+
 
     static final double FORWARD_SPEED = 0.6;
     static final double TURN_SPEED = 0.5;
@@ -191,8 +193,9 @@ public class AutoRobotDrive extends LinearOpMode {
 
             viperArm.initialize(hardwareMap);
             bucket.initialize(hardwareMap);
+            led.initialize(hardwareMap);
 
-            RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
             RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
             RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
@@ -252,6 +255,8 @@ public class AutoRobotDrive extends LinearOpMode {
             leftFrontDrive.setPower(0);
             rightBackDrive.setPower(0);
             rightFrontDrive.setPower(0);
+
+            led.pattern();
 
             telemetry.addData("Path", "Complete");
             telemetry.update();
