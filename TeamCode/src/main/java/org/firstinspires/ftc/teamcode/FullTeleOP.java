@@ -192,7 +192,7 @@ public class FullTeleOP extends LinearOpMode {
             //Bucket
             if (gamepad2.y) {
                 bucket.dump();
-            } else if (!gamepad2.x) {
+            } else if (!gamepad2.y) {
                 bucket.reset();
             }
             telemetry.addData("Bucket Servo", "%4.2f", bucket.getPosition());
@@ -230,6 +230,7 @@ public class FullTeleOP extends LinearOpMode {
             led.pattern();
 
             // Show the elapsed game time and wheel power.
+            telemetry.addData("Train Position", trainSlide.trainSlide.getCurrentPosition());
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
