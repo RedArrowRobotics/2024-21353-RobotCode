@@ -31,7 +31,10 @@ public class ViperArrrrrm {
     void lowBucket(){
         viperArm.setPower(1);
         viperArm.setTargetPosition(1800);
-
+    }
+    void bar(){
+        viperArm.setPower(1);
+        viperArm.setTargetPosition(2000); //not calibrated
     }
 
     boolean isMoving2(){
