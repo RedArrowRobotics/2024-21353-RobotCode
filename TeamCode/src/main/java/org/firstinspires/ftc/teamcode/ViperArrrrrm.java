@@ -34,7 +34,7 @@ public class ViperArrrrrm {
     }
     void bar(){
         viperArm.setPower(1);
-        viperArm.setTargetPosition(2000); //not calibrated
+        viperArm.setTargetPosition(1200); //not calibrated
     }
 
     boolean isMoving2(){

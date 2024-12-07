@@ -80,6 +80,8 @@ public class FullTeleOP extends LinearOpMode {
         return speed;
     }
 
+    boolean emergencyMode = false;
+
     @Override
     public void runOpMode() {
 
@@ -191,8 +193,9 @@ public class FullTeleOP extends LinearOpMode {
 
             //Bucket
             if (gamepad2.y) {
+                emergencyMode = false;
                 bucket.dump();
-            } else if (!gamepad2.y) {
+            } else if (!gamepad2.y && emergencyMode == false) {
                 bucket.reset();
             }
             telemetry.addData("Bucket Servo", "%4.2f", bucket.getPosition());
@@ -202,14 +205,25 @@ public class FullTeleOP extends LinearOpMode {
             viperArm.operateArm(telemetry, armPower);
 
             if (gamepad2.a) {
+                emergencyMode = false;
                 viperArm.home();
                 telemetry.addData("Deb", "Home");
             } else if (gamepad2.b) {
+                emergencyMode = false;
                 viperArm.highBucket();
                 telemetry.addData("Deb", "High Bucket");
             } else if (gamepad2.x) {
+                emergencyMode = false;
                 viperArm.lowBucket();
                 telemetry.addData("Deb", "Low Bucket");
+            }
+
+            //Emergency Bar Touch
+            if (gamepad2.right_stick_button) {
+                emergencyMode = true;
+                viperArm.bar();
+                bucket.emergencyPosition();
+                telemetry.addData("Deb", "Emergency Bar");
             }
 
             //Benson and Train

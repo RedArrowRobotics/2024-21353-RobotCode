@@ -18,6 +18,7 @@ public class SampleBucket extends LinearOpMode {
     void reset(){
         bucket.setPosition(.025);
     }
+    void emergencyPosition(){bucket.setPosition(.65);}
 
     public void runOpMode() {
         initialize(hardwareMap);
