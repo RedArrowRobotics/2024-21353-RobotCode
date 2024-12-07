@@ -34,13 +34,13 @@ public class ViperArrrrrm {
 
     }
 
-    boolean isMoving2(){
+    boolean isMoving(){
         return viperArm.isBusy();
     }
 
     void operateArm(Telemetry telemetry, double armPower){
 
-        if (viperArm.getTargetPosition() <= 0) {
+        if (viperArm.getTargetPosition() <= 0 || touchSensor.getValue() == 1) {
             if (touchSensor.getValue() == 1) {
                 viperArm.setTargetPosition(0);
                 viperArm.setPower(0);

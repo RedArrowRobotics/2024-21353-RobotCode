@@ -242,12 +242,13 @@ public class AutoRobotDrive extends LinearOpMode {
 
             //537.6 ticks per revolution
             bucket.reset();
-            //forward(-FORWARD_SPEED, -537);
+            forward(-FORWARD_SPEED, -430); //0.8 revolutions
+            pause(.2);
             int initialPosition = leftFrontDrive.getCurrentPosition();
-            while (leftBackDrive.getCurrentPosition() > initialPosition - 269) { //0.5 revolutions
+            while (leftBackDrive.getCurrentPosition() > initialPosition - 323) { //0.6 revolutions
             leftBackDrive.setPower(-0.6);
-            leftFrontDrive.setPower(0);
-            rightBackDrive.setPower(0);
+            leftFrontDrive.setPower(0.6);
+            rightBackDrive.setPower(0.6);
             rightFrontDrive.setPower(-0.6);
             }
             leftBackDrive.setPower(0);
@@ -255,20 +256,31 @@ public class AutoRobotDrive extends LinearOpMode {
             rightBackDrive.setPower(0);
             rightFrontDrive.setPower(0);
             viperArm.highBucket();
-            while (opModeIsActive() && viperArm.isMoving2()) { }
-            pause(.2);
+            while (opModeIsActive() && viperArm.isMoving()) { }
+            pause(.3);
             bucket.dump();
             pause(1);
             bucket.reset();
             viperArm.home();
-            while (opModeIsActive() && viperArm.isMoving2()) { }
+            telemetry.addData("Viper", "Go Home");
+            telemetry.update();
+            while (opModeIsActive() && viperArm.isMoving()) {viperArm.operateArm(telemetry, 0);}
+            telemetry.addData("Viper", "Stopped Moving");
+            telemetry.update();
+            imuDepends(-35);
+            forward(FORWARD_SPEED, 4301); //8
+            pause(.3);
             initialPosition = leftFrontDrive.getCurrentPosition();
-            while (leftBackDrive.getCurrentPosition() < initialPosition + 5370) { //5 revolutions
-                leftBackDrive.setPower(FORWARD_SPEED);
-                leftFrontDrive.setPower(0);
-                rightBackDrive.setPower(0);
-                rightFrontDrive.setPower(FORWARD_SPEED);
+            while (leftBackDrive.getCurrentPosition() > initialPosition - 323) { //0.6 revolutions
+            leftBackDrive.setPower(-0.6);
+            leftFrontDrive.setPower(0.6);
+            rightBackDrive.setPower(0.6);
+            rightFrontDrive.setPower(-0.6);
             }
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
 
             // Step 4:  Stop
             leftBackDrive.setPower(0);
